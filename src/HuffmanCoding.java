@@ -7,6 +7,7 @@
  */
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class HuffmanCoding {
 
@@ -76,6 +77,7 @@ public class HuffmanCoding {
 		HuffmanTree = nodes.poll();
 
 		printBinaryTree(HuffmanTree);
+	
 	}
 
 	/**
@@ -125,6 +127,7 @@ public class HuffmanCoding {
 			if (rightCodeFirst != null) {
 				return rightCodeFirst;
 			}
+
 		}
 		// Recurse on left child
 		String leftCode = encodeHelper(letter, node.leftChild(), code);
@@ -149,8 +152,35 @@ public class HuffmanCoding {
 	 * return the decoded text as a text string.
 	 */
 	public String decode(String encoded) {
-		// TODO fill this in.
-		return "";
+		StringBuilder text = new StringBuilder();
+		// Pointer Node for navigating the tree
+		Node pointer = HuffmanTree;
+
+		// For each 1/0 in the encoded text
+		for (int i = 0; i < encoded.length(); i++) {
+			
+			// Get the 1/0
+			String binCode = encoded.substring(i, i + 1);
+				
+			if (binCode.equals("0")) {
+				pointer = pointer.leftChild();
+
+			}
+
+			else if (binCode.equals("1")) {
+				pointer = pointer.rightChild();
+
+			}
+			// Once we find a letter, add it to the text and reset the pointer to the root
+			if (pointer.symbol() != null) {
+				text.append(pointer.symbol());
+				pointer = HuffmanTree;
+			}
+
+		}
+		
+		return text.toString();
+
 	}
 
 	/**
