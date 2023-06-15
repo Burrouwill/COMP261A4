@@ -77,7 +77,7 @@ public class HuffmanCoding {
 		HuffmanTree = nodes.poll();
 
 		printBinaryTree(HuffmanTree);
-	
+
 	}
 
 	/**
@@ -91,7 +91,6 @@ public class HuffmanCoding {
 		for (int i = 0; i < text.length(); i++) {
 			encodedString.append(encodeHelper("" + text.charAt(i), HuffmanTree, code));
 		}
-
 		return encodedString.toString();
 	}
 
@@ -158,29 +157,23 @@ public class HuffmanCoding {
 
 		// For each 1/0 in the encoded text
 		for (int i = 0; i < encoded.length(); i++) {
-			
+
 			// Get the 1/0
 			String binCode = encoded.substring(i, i + 1);
-				
+
 			if (binCode.equals("0")) {
 				pointer = pointer.leftChild();
-
 			}
-
 			else if (binCode.equals("1")) {
 				pointer = pointer.rightChild();
-
 			}
 			// Once we find a letter, add it to the text and reset the pointer to the root
 			if (pointer.symbol() != null) {
 				text.append(pointer.symbol());
 				pointer = HuffmanTree;
 			}
-
 		}
-		
 		return text.toString();
-
 	}
 
 	/**

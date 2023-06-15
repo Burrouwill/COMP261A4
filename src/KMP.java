@@ -18,12 +18,6 @@ public class KMP {
 			if (pattern == null || text == null) {
 				throw new IllegalArgumentException("Text and/or Pattern is null.");
 			}
-			if (pattern.length() > text.length()) {
-				throw new IllegalArgumentException("Pattern longer than Text.");
-			}
-			if (pattern.equals("") || text.equals("")) {
-				throw new IllegalArgumentException("Empty Pattern and/or Text.");
-			}
 
 			// Calc Jump Table
 			int[] prefixLength = calcJumpTable(pattern);
