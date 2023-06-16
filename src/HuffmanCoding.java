@@ -75,9 +75,6 @@ public class HuffmanCoding {
 
 		// Set the Tree field to be the tree
 		HuffmanTree = nodes.poll();
-
-		printBinaryTree(HuffmanTree);
-
 	}
 
 	/**
