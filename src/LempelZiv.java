@@ -7,33 +7,42 @@ public class LempelZiv {
 	 * text string.
 	 */
 	public static String compress(String input) {
-		StringBuilder cText = new StringBuilder();
-		int cursor = 0;
-		int windowSize = 100;
+	    StringBuilder cText = new StringBuilder();
+	    int cursor = 0;
+	    int windowSize = 100;
 
-		while (cursor < input.length()) {
-			int length = 1;
-			int prevMatch = 0;
+	    while (cursor < input.length()) {
+	        int length = 1;
+	        int prevMatch = 0;
 
-			while (true) {
-				int match = KMP.search(input.substring(cursor, cursor + length),
-						input.substring(Math.max(0, cursor - windowSize), cursor));
+	        while (true) {
+	            int match = KMP.search(input.substring(cursor, cursor + length),
+	                    input.substring(Math.max(0, cursor - windowSize), cursor));
 
-				if (match != -1) {
-					prevMatch = cursor - match;
-					length++;
-				} else {
-					cText.append(
-							"[" + (prevMatch) + "|" + (length - 1) + "|" + input.charAt(cursor + length - 1) + "]");
-					break;
-				}
-			}
+	            if (match != -1) {
+	                prevMatch = cursor - (Math.max(cursor - windowSize, 0) + match);
+	                length++;
+	            } else {
+	                if (length > 1) {
+	                    cText.append("[" + (prevMatch) + "|" + (length - 1) + "|" + input.charAt(cursor + length - 1) + "]");
+	                } else {
+	                    cText.append("[0|0|" + input.charAt(cursor) + "]");
+	                }
+	                break;
+	            }
 
-			cursor = cursor + length;
-		}
+	            if (cursor + length >= input.length()) {
+	                cText.append("[" + (prevMatch) + "|" + (length - 1) + "|" + input.charAt(cursor + length - 1) + "]");
+	                break;
+	            }
+	        }
 
-		return cText.toString();
+	        cursor = cursor + length;
+	    }
+
+	    return cText.toString();
 	}
+
 
 	/**
 	 * Take compressed input as a text string, decompress it, and return it as a
